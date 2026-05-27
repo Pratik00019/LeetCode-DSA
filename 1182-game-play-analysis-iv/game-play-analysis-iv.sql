@@ -1,4 +1,3 @@
-# Write your MySQL query statement below
 -- SELECT ROUND(COUNT(DISTINCT(d1.player_id) / (SELECT COUNT(distinct(player_id)) FROM Activity),2)) as fraction
 -- FROM Activity d1
 -- JOIN Activity d2
@@ -10,7 +9,7 @@ WITH temp AS
     FROM Activity
     GROUP BY player_id)
 
-SELECT ROUND(COUNT(d.player_id) / (SELECT COUNT(distinct(player_id)) FROM Activity),2) as fraction
+SELECT ROUND(COUNT(d.player_id)* 1.0 / (SELECT COUNT(distinct(player_id)) FROM Activity) * 1.0,2) as fraction
 FROM Activity d
 JOIN temp t
-ON t.player_id=d.player_id AND DATEDIFF(d.event_date,t.event_date) = 1
+ON t.player_id=d.player_id AND DATEDIFF(Day,t.event_date,d.event_date) = 1
